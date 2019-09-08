@@ -1,6 +1,7 @@
 # pylint: disable=no-member
 import flask
 import json
+import random
 import re
 import time
 from collections import Counter
@@ -34,9 +35,54 @@ SPREADSHEETS = {
 def exists(query):
     return query.fetchone()[0]
 
+@app.route('/otp', methods=['GET'])
+def generate_otp():
+    required_args = ('phone', 'name', 'password')
+    values = request.args
+    for arg in required_args:
+        if arg not in values:
+            return json.dumps({
+                'success': False,
+                'message': "Invalid request."
+            })
+
+    query = cursor.execute(
+        """
+        select count(*) from Otp
+        where phone = ?;
+        """,
+        (values['phone'],)    
+    )
+    if exists(query):
+        return json.dumps({
+            'success': False,
+            'message': "Your OTP has already been generated. Contact Pradhyumna Upadhyay for OTP"
+        })
+    
+    otp = random.randint(1000, 9999)
+
+    cursor.execute(
+        """
+        insert into Otp values
+        (?, ?, ?);
+        """,
+        (
+            values['phone'],
+            values['name'],
+            otp
+        )
+    )
+
+    conn.commit()
+
+    return json.dumps({
+        'success': True,
+        'message': "OTP Generated! Contact Pradhyumna Upadhyay for OTP"
+    })
+
 @app.route('/add', methods=['GET'])
 def add_new_user():
-    required_args = ('firstname', 'lastname', 'college', 'year', 'branch', 'phone')
+    required_args = ('firstname', 'lastname', 'college', 'year', 'branch', 'phone', 'otp')
     values = request.args
     for arg in required_args:
         if arg not in values:

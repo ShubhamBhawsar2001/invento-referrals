@@ -18,6 +18,15 @@ def connect_db():
             );
             """
         )
+        c.execute(
+            """
+            create table Otp(
+                phone integer not null primary key,
+                name text not null
+                otp integer not null
+            );
+            """
+        )
         conn.commit()
         conn.close()
     return sqlite3.connect('user.db', check_same_thread=False)
