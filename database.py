@@ -22,7 +22,7 @@ def connect_db():
             """
             create table Otp(
                 phone integer not null primary key,
-                name text not null
+                name text not null,
                 otp integer not null
             );
             """

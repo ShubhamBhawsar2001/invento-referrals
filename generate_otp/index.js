@@ -19,11 +19,21 @@ if (phone && name && password) {
         messageBox = document.getElementById("message")
         messageBox.textContent = "Processing..."
 
+        hintbox
         fetch(api_url + url_string.split('?')[1])
         .then(res => res.json())
         .then(body => {
             messageBox.style.backgroundColor = body.success ? 'rgb(31, 177, 87)' : 'red'
             messageBox.textContent = body.message
+            if (body.success) {
+                hintBox = document.getElementById('hint')
+                hintBox.innerHTML = `
+                    <a href='tusharsadhwani.github.io/invento-referrals/'>
+                        Click Here
+                    </a>
+                    to continue creating your referral
+                `
+            }
         })
     }
 }
