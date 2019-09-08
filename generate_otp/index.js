@@ -9,16 +9,21 @@ const password = url.searchParams.get("password")
 api_url = 'https://tusharsadhwani1.pythonanywhere.com/otp?'
 
 if (phone && name && password) {
-    window.history.replaceState(null, null, window.location.pathname);
-    document.getElementById("form").reset()
+    if (password != 'invento') {
+        alert("Incorrect Password")
+        window.history.replaceState(null, null, window.location.pathname);
+    } else {
+        document.getElementById("form").reset()
+        window.history.replaceState(null, null, window.location.pathname);
 
-    messageBox = document.getElementById("message")
-    messageBox.textContent = "Processing..."
+        messageBox = document.getElementById("message")
+        messageBox.textContent = "Processing..."
 
-    fetch(api_url + url_string.split('?')[1])
-    .then(res => res.json())
-    .then(body => {
-        messageBox.style.backgroundColor = body.success ? 'rgb(31, 177, 87)' : 'red'
-        messageBox.textContent = body.message
-    })
+        fetch(api_url + url_string.split('?')[1])
+        .then(res => res.json())
+        .then(body => {
+            messageBox.style.backgroundColor = body.success ? 'rgb(31, 177, 87)' : 'red'
+            messageBox.textContent = body.message
+        })
+    }
 }
