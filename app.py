@@ -25,7 +25,9 @@ LOAD_TIME = time.time()
 
 SPREADSHEETS = {
     '1SWRQGdd5ImD4kHmEgwX1O0wo2Nfhmb5a4YSRi2M15TY': 10,
-    '1gO-4hcAuuZxTkgjQKqiRTOx3wQPGp-ArsVYoSNRE5tA': 5
+    '1gO-4hcAuuZxTkgjQKqiRTOx3wQPGp-ArsVYoSNRE5tA': 5,
+    '1UCnwrYmtv4GlrTkRxrIgSbkPJJLDkcUdhChj701LY3k': 7,
+    '1AR7xNmKaNqaH7mQSGsZB4GzbNPiEd6E5Ms2zLAxLk8Y': 5
 }
 
 def exists(query):
