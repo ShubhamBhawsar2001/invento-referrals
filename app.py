@@ -1,6 +1,7 @@
 # pylint: disable=no-member
 import flask
 import json
+import re
 import time
 from collections import Counter
 from flask import request, abort
@@ -96,6 +97,54 @@ def add_new_user():
         'message': "Referral Generated!\nReferral code: {}".format(referral)
     })
 
+@app.route('/add_admin', methods=['GET'])
+def add_new_user_admin():
+    required_args = ('referral', 'password', 'firstname', 'lastname', 'college', 'year', 'branch', 'phone')
+    values = request.args
+    for arg in required_args:
+        if arg not in values:
+            return json.dumps({
+                'success': False,
+                'message': "Invalid request."
+            })
+
+    query = cursor.execute(
+        """
+        select count(*) from User
+        where phone = ?;
+        """,
+        (values['phone'],)    
+    )
+    if exists(query):
+        return json.dumps({
+            'success': False,
+            'message': "A user with this phone number already exists."
+        })
+
+    cursor.execute(
+        """
+        insert into User values
+        (?, ?, ?, ?, ?, ?, ?);
+        """,
+        (
+            values['phone'],
+            values['referral'].upper(),
+            values['firstname'],
+            values['lastname'],
+            values['college'],
+            values['year'],
+            values['branch'],
+        )
+    )
+
+    conn.commit()
+
+    return json.dumps({
+        'success': True,
+        'message': "Referral Added!\nReferral code: {}".format(values['referral'])
+    })
+
+
 @app.route('/leaderboard', methods=['GET'])
 def get_leaderboard():
     global LEADERBOARD
@@ -124,9 +173,18 @@ def get_leaderboard():
                         phone = phone[2:]
                     phone = phone[:10]
 
-                referral = str(row[col]).strip()
-                if referral[:2].isalpha() and referral[2:].isdigit():
-                    referrals.update({phone: referral.upper()})
+                referral_field = str(row[col]).strip()
+                referral = ''
+                if re.findall(r'[A-Za-z]{2}', referral_field):
+                    referral += re.findall(r'[A-Za-z]{2}', referral_field)[0].upper()
+                else:
+                    continue
+                if re.findall(r'\d{2}', referral_field):
+                    referral += re.findall(r'\d{2}', referral_field)[0]
+                else:
+                    continue
+                
+                referrals.update({phone: referral})
     
     leaderboard = sorted([list(i) for i in Counter(referrals.values()).items()],
                          key=lambda x: x[1],
