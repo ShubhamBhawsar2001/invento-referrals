@@ -19,7 +19,6 @@ if (phone && name && password) {
         messageBox = document.getElementById("message")
         messageBox.textContent = "Processing..."
 
-        hintbox
         fetch(api_url + url_string.split('?')[1])
         .then(res => res.json())
         .then(body => {
