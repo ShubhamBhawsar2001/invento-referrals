@@ -10,12 +10,30 @@
 <body>
   <div id="app">
     <div class="card" v-for="card in cards">
-      <p> {{ card.referral }} </p>
-      <p> {{ card.count }} </p>
-      <p> {{ card.name }} </p>
-      <p> {{ card.college }} </p>
-      <p> {{ card.branch }} </p>
-      <p> {{ card.year }} </p>
+      <p>
+        <b>Referral:</b>
+        {{ card.referral }}
+      </p>
+      <p>
+        <b>Count:</b>
+        {{ card.count }}
+      </p>
+      <p>
+        <b>Name:</b>
+        {{ card.name }}
+      </p>
+      <p>
+        <b>College:</b>
+        {{ card.college }}
+      </p>
+      <p>
+        <b>Branch:</b>
+        {{ card.branch }}
+      </p>
+      <p>
+        <b>Year:</b>
+        {{ card.year }}
+      </p>
     </div>
   </div>
   <script src="leaderboard.js"></script>
