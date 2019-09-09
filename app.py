@@ -247,7 +247,7 @@ def get_leaderboard():
                               reverse=True)
 
     leaderboard = []
-    for index, user in enumerate(sorted_referrals):
+    for user in sorted_referrals:
         referral = user[0]
         refcount = user[1]
         query = cursor.execute(
