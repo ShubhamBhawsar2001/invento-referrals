@@ -32,6 +32,18 @@ SPREADSHEETS = {
     '1AR7xNmKaNqaH7mQSGsZB4GzbNPiEd6E5Ms2zLAxLk8Y': 5
 }
 
+IET_REFCODES = {
+    'CS01': 'CS A',
+    'CS02': 'CS B',
+    'IT01': 'IT A',
+    'IT02': 'IT B',
+    'ET01': 'E&TC A',
+    'ET02': 'E&TC B',
+    'EI00': 'E&I',
+    'MC00': 'Mech',
+    'CV00': 'Civil'
+}
+
 def exists(query):
     return query.fetchone()[0]
 
@@ -262,54 +274,63 @@ def get_leaderboard():
                               reverse=True)
 
     leaderboard = []
+    iet_leaderboard = []
     for user in sorted_referrals:
         referral = user[0]
         refcount = user[1]
-        query = cursor.execute(
-            """
-            select count(*) from User
-            where referral = ?;
-            """,
-            (referral,)
-        )
-        if exists(query):
+
+        if referral in IET_REFCODES:
+            iet_leaderboard.append({
+                'name': IET_REFCODES[referral],
+                'count': refcount
+            })
+        else:
             query = cursor.execute(
                 """
-                select *
-                from User
+                select count(*) from User
                 where referral = ?;
                 """,
                 (referral,)
             )
-            res = query.fetchone()[2:]
-            name = f"{res[0].title()} {res[1].title()}"
-            college = res[2]
-            branch = f"{res[4]} branch"
-            year_number = int(res[3])
-            if year_number == 1:
-                year = '1st year'
-            elif year_number == 2:
-                year = '2nd year'
-            elif year_number == 3:
-                year = '3rd year'
+            if exists(query):
+                query = cursor.execute(
+                    """
+                    select *
+                    from User
+                    where referral = ?;
+                    """,
+                    (referral,)
+                )
+                res = query.fetchone()[2:]
+                name = f"{res[0].title()} {res[1].title()}"
+                college = res[2]
+                branch = f"{res[4]} branch"
+                year_number = int(res[3])
+                if year_number == 1:
+                    year = '1st year'
+                elif year_number == 2:
+                    year = '2nd year'
+                elif year_number == 3:
+                    year = '3rd year'
+                else:
+                    year = f'{year_number}th year'
             else:
-                year = f'{year_number}th year'
-        else:
-            name = college = year = branch = ''
-        
-        leaderboard.append({
-            'referral': referral,
-            'count': refcount,
-            'name': name,
-            'college': college,
-            'branch': branch,
-            'year': year
-        })
+                name = college = year = branch = ''
+            
+            leaderboard.append({
+                'referral': referral,
+                'count': refcount,
+                'name': name,
+                'college': college,
+                'branch': branch,
+                'year': year
+            })
 
     
     LEADERBOARD = json.dumps({
         'referrals': referrals,
         'leaderboard': leaderboard,
+        'iet_leaderboard': iet_leaderboard,
         'count': count
     })
     return LEADERBOARD
