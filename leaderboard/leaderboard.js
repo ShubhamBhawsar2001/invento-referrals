@@ -2,7 +2,7 @@ vm = new Vue({
   el: '#app',
   data: {
     cards: [],
-    iet_cards = []
+    iet_cards: []
   }
 })
 
