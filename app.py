@@ -80,6 +80,16 @@ def generate_otp():
         'message': "OTP Generated! Contact Pradhyumna Upadhyay for OTP"
     })
 
+@app.route('/otp_admin', methods=['GET'])
+def get_otps():
+    query = cursor.execute(
+        """
+        select * from Otp;
+        """
+    )
+    return json.dumps(query)
+    
+
 @app.route('/add', methods=['GET'])
 def add_new_user():
     required_args = ('firstname', 'lastname', 'college', 'year', 'branch', 'phone', 'otp')

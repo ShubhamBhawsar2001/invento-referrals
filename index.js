@@ -12,16 +12,16 @@ const phone = url.searchParams.get("phone")
 api_url = 'https://tusharsadhwani1.pythonanywhere.com/add?'
 
 if (firstname && lastname && college && year && branch && phone) {
-    window.history.replaceState(null, null, window.location.pathname);
+    window.history.replaceState(null, null, window.location.pathname)
     document.getElementById("form").reset()
 
     messageBox = document.getElementById("message")
     messageBox.textContent = "Processing..."
 
     fetch(api_url + url_string.split('?')[1])
-    .then(res => res.json())
-    .then(body => {
-        messageBox.style.backgroundColor = body.success ? 'rgb(31, 177, 87)' : 'red'
-        messageBox.textContent = body.message
-    })
+      .then(res => res.json())
+      .then(body => {
+          messageBox.style.backgroundColor = body.success ? 'rgb(31, 177, 87)' : 'red'
+          messageBox.textContent = body.message
+      })
 }
