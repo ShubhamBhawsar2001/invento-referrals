@@ -242,12 +242,14 @@ def get_leaderboard():
                 
                 referrals.update({phone: referral})
     
-    leaderboard = sorted([list(i) for i in Counter(referrals.values()).items()],
-                         key=lambda x: x[1],
-                         reverse=True)
+    sorted_referrals = sorted([list(i) for i in Counter(referrals.values()).items()],
+                              key=lambda x: x[1],
+                              reverse=True)
 
-    for index, user in enumerate(leaderboard):
+    leaderboard = []
+    for index, user in enumerate(sorted_referrals):
         referral = user[0]
+        refcount = user[1]
         query = cursor.execute(
             """
             select count(*) from User
@@ -280,8 +282,14 @@ def get_leaderboard():
         else:
             name = college = year = branch = ''
         
-        for info in (name, college, year, branch):
-            leaderboard[index].append(info)
+        leaderboard.append({
+            'referral': referral,
+            'count': refcount,
+            'name': name,
+            'college': college,
+            'branch': branch,
+            'year': year
+        })
 
     
     LEADERBOARD = json.dumps({
