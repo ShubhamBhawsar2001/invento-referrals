@@ -114,6 +114,20 @@ def add_new_user():
             'message': "A user with this phone number already exists."
         })
 
+    valid_otp = cursor.execute(
+        """
+        select count(*) from Otp
+        where phone = ?
+        and otp = ?;
+        """,
+        (values['phone'], values['otp'])
+    )
+    if not exists(valid_otp):
+        return json.dumps({
+            'success': False,
+            'message': "Incorrect OTP, try again."
+        })
+
     initials = values['firstname'][0] + values['lastname'][0]
     counter = 1
     while True:
