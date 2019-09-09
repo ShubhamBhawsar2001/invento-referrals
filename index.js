@@ -23,5 +23,16 @@ if (firstname && lastname && college && year && branch && phone) {
       .then(body => {
           messageBox.style.backgroundColor = body.success ? 'rgb(31, 177, 87)' : 'red'
           messageBox.textContent = body.message
+          if (body.success) {
+              hintBox = document.getElementById('hint')
+              hintBox.innerHTML = `
+                  Your Referral has been generated!<br>
+                  <br>
+                  Send ask your friends to sign up to Invento events with the code <br>
+                  <b>${body.code}</b> <br>
+                  to gain points on the
+                  <a href="/leaderboard">leaderboard</a>
+              `
+          }
       })
 }

@@ -164,7 +164,8 @@ def add_new_user():
 
     return json.dumps({
         'success': True,
-        'message': "Referral Generated!\nReferral code: {}".format(referral)
+        'message': "Referral Generated!\nReferral code: {}".format(referral),
+        'code': referral
     })
 
 @app.route('/add_admin', methods=['GET'])
