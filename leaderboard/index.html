@@ -10,9 +10,12 @@
 <body>
   <div id="app">
     <div class="card" v-for="card in cards">
-      <p v-for="info in card">
-        {{  info  }}
-      </p>
+      <p> {{ card.referral }} </p>
+      <p> {{ card.count }} </p>
+      <p> {{ card.name }} </p>
+      <p> {{ card.college }} </p>
+      <p> {{ card.branch }} </p>
+      <p> {{ card.year }} </p>
     </div>
   </div>
   <script src="leaderboard.js"></script>
