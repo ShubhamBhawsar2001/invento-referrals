@@ -31,7 +31,7 @@ if (firstname && lastname && college && year && branch && phone) {
                   Send ask your friends to sign up to Invento events with the code <br>
                   <b>${body.code}</b> <br>
                   to gain points on the
-                  <a href="/leaderboard">leaderboard</a>
+                  <a href="leaderboard">leaderboard</a>
               `
           }
       })
