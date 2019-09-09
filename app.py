@@ -5,7 +5,7 @@ import random
 import re
 import time
 from collections import Counter
-from flask import request, abort
+from flask import request
 from flask_cors import CORS
 
 import sheets
@@ -87,7 +87,7 @@ def get_otps():
         select * from Otp;
         """
     )
-    return json.dumps(query)
+    return json.dumps(query.fetchall())
     
 
 @app.route('/add', methods=['GET'])
