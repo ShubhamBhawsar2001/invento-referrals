@@ -224,7 +224,7 @@ def add_new_user_admin():
 
     return json.dumps({
         'success': True,
-        'message': "Referral Added!\nReferral code: {}".format(values['referral'])
+        'message': "Referral Added!\nReferral code: {}".format(values['referral'].upper())
     })
 
 
