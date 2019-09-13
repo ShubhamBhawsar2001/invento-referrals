@@ -334,7 +334,7 @@ def get_leaderboard():
     
     LEADERBOARD = {
         'referrals': referrals,
-        'leaderboard': leaderboard,
+        'leaderboard': leaderboard[:10],
         'iet_leaderboard': iet_leaderboard,
         'count': count
     }
