@@ -238,7 +238,7 @@ def get_leaderboard():
     global LOAD_TIME
 
     if LEADERBOARD and time.time()-LOAD_TIME < 60:
-        return LEADERBOARD
+        return json.dumps(LEADERBOARD)
 
     LOAD_TIME = time.time()
     global count
@@ -332,13 +332,13 @@ def get_leaderboard():
             })
 
     
-    LEADERBOARD = json.dumps({
+    LEADERBOARD = {
         'referrals': referrals,
         'leaderboard': leaderboard,
         'iet_leaderboard': iet_leaderboard,
         'count': count
-    })
-    return LEADERBOARD
+    }
+    return json.dumps(LEADERBOARD)
 
 @app.route('/check', methods=['GET'])
 def check_data():
@@ -348,7 +348,7 @@ def check_data():
             'message': "Invalid request."
         })
 
-    referral = request.args['ref']
+    referral = request.args['ref'].upper()
 
     result = None
 
